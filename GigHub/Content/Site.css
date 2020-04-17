@@ -67,8 +67,8 @@ span.field-validation-error {
 }
 
 .btn {
-    font-size: 15px;
-    padding: 7px 20px;
+    /*font-size: 15px;*/
+    /*padding: 7px 20px;*/
     border-radius: 4px;
 }
 
@@ -122,9 +122,20 @@ span.field-validation-error {
 .gigs > li .details .artist {
     font-weight: bold;
     display: block;
+    margin-bottom: 10px;
 }
 
-gigs > li .details .genre {
-    font-size: 15px;
+.gigs > li .details .genre {
+    font-size: 13px;
+}
 
+.gigs > li .details .artist .follow-link {
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.btn-xsm {
+    padding: 3px 5px;
+    font-size: 10px;
+    line-height: 1.5;
 }
