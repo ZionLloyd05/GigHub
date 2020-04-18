@@ -31,7 +31,8 @@ namespace GigHub.Controllers
             var viewModel = new GigsViewModel
             {
                 UpcomingGigs = userGigs,
-                ShowActions = false
+                ShowActions = false,
+                Heading = "Gigs I'm Attending!"
             };
 
             return View("Gigs", viewModel);

@@ -84,6 +84,7 @@ span.field-validation-error {
 /** Page-Level Styles*/
 .gigs {
     list-style: none;
+    /*margin-top: 40px;*/
 }
 
 .gigs > li {
@@ -138,4 +139,8 @@ span.field-validation-error {
     padding: 3px 5px;
     font-size: 10px;
     line-height: 1.5;
+}
+
+.head-text {
+    margin-bottom: 50px;
 }
