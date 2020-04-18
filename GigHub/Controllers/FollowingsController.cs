@@ -16,6 +16,7 @@ namespace GigHub.Controllers
             _context = new ApplicationDbContext();
         }
 
+        
         [HttpPost]
         public IHttpActionResult Follow(FollowingDto dto)
         {
@@ -38,5 +39,7 @@ namespace GigHub.Controllers
 
             return Ok();
         }
+
+        
     }
 }

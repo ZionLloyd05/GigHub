@@ -144,3 +144,16 @@ span.field-validation-error {
 .head-text {
     margin-bottom: 50px;
 }
+
+.detail > .artist-name {
+    font-size: 35px;
+}
+
+.detail .follow-link {
+    background: #007ACC !important;
+    color: white;
+}
+
+.detail p {
+    margin-top: 20px;
+}

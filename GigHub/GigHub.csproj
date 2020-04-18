@@ -187,6 +187,7 @@
     <Compile Include="Dtos\FollowingDto.cs" />
     <Compile Include="ViewModels\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="ViewModels\ExternalLoginListViewModel.cs" />
+    <Compile Include="ViewModels\GigsDetailViewModel.cs" />
     <Compile Include="ViewModels\GigsViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -300,7 +301,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Gigs\Create.cshtml" />
-    <Content Include="Views\Gigs\Attending.cshtml" />
+    <Content Include="Views\Gigs\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
