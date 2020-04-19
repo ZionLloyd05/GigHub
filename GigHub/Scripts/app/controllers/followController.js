@@ -21,7 +21,7 @@
 
 
     var done = function () {
-        var text = (button.text() == "Following") ? "Follow" : "Following";
+        var text = (button.text() == "Follow") ? "Following" : "Follow";
 
         button.toggleClass("btn-info").toggleClass("btn-default").text(text);
     }

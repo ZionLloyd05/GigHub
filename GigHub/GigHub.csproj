@@ -185,6 +185,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Dtos\FollowingDto.cs" />
+    <Compile Include="Respositories\AttendanceRepository.cs" />
+    <Compile Include="Respositories\FollowingRepository.cs" />
+    <Compile Include="Respositories\GenreRepository.cs" />
+    <Compile Include="Respositories\GigRepository.cs" />
     <Compile Include="ViewModels\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="ViewModels\ExternalLoginListViewModel.cs" />
     <Compile Include="ViewModels\GigsDetailViewModel.cs" />

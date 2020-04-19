@@ -1,7 +1,7 @@
 ﻿using GigHub.Dtos;
 using GigHub.Models;
+using GigHub.Respositories;
 using Microsoft.AspNet.Identity;
-using System.Linq;
 using System.Web.Http;
 
 namespace GigHub.Controllers
@@ -9,19 +9,26 @@ namespace GigHub.Controllers
     [Authorize]
     public class AttendancesController : ApiController
     {
-        private ApplicationDbContext _context;
+
+        private readonly ApplicationDbContext _context;
+        private readonly AttendanceRepository _attendanceRepository;
 
         public AttendancesController()
         {
             _context = new ApplicationDbContext();
+            _attendanceRepository = new AttendanceRepository(_context);
         }
+
 
         // POST api/<controller>
         [HttpPost]
         public IHttpActionResult Attend(AttendanceDto dto)
         {
             var userId = User.Identity.GetUserId();
-            if (_context.Attendances.Any(a => a.GigId == dto.GigId && a.AttendeeId == userId))
+
+            var attendanceForGig = _attendanceRepository.GetAttendancesForGig(dto.GigId, userId);
+
+            if (attendanceForGig != null)
                 return BadRequest("The attendance already exist");
 
             var attendance = new Attendance
@@ -43,18 +50,19 @@ namespace GigHub.Controllers
                 return BadRequest();
 
             var userId = User.Identity.GetUserId();
-
-            var attendanceInDb = _context.Attendances
-                .Where(a => a.GigId == id && a.AttendeeId == userId)
-                .SingleOrDefault();
-
+            Attendance attendanceInDb = _attendanceRepository.GetAttendancesForGig(id, userId);
+                            
             if (attendanceInDb == null)
                 return NotFound();
+
+            if (attendanceInDb.AttendeeId != userId)
+                return BadRequest("Unauthorized");
 
             _context.Attendances.Remove(attendanceInDb);
             _context.SaveChanges();
 
             return Ok();
         }
+
     }
 }
