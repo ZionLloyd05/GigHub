@@ -5,7 +5,7 @@
 
 
 <h2 class="head-text">@Model.Heading</h2>
-<ul class="gigs">
+<ul id="gigs" class="gigs">
     @foreach (var gig in Model.UpcomingGigs)
     {
     <li>
@@ -20,10 +20,7 @@
         <div class="details">
             <span class="artist">
                 @Html.ActionLink(gig.Artist.Name, "Detail", "Gigs", new { gigId = gig.Id}, null)
-                @if (Model.ShowActions)
-                {
-                    <span class="follow-link"><a data-artist-id="@gig.ArtistId" class="js-toggle-follow" href="#">Follow</a></span>
-                }
+               
             </span>
             <span class="genre">
                 @gig.Genre.Name
@@ -48,50 +45,9 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            $(".js-toggle-attendance").click(function (e) {
-                var button = $(e.target);
-                if (button.hasClass("btn-default")) {
-                    $.post("/api/attendances", { GigId: button.attr("data-gig-id") })
-                        .done(function () {
-                            button
-                                .removeClass("btn-default")
-                                .addClass("btn-info")
-                                .text("Going");
-                        })
-                        .fail(function () {
-                            alert("something failed")
-                        })
-                } else {
-                    $.ajax({
-                        url: "/api/attendances/" + button.attr("data-gig-id"),
-                        method: "DELETE"
-                    })
-                        .done(function () {
-                            button
-                                .removeClass("btn-info")
-                                .addClass("btn-default")
-                                .text("Going?")
-                        })
-                        .fail(function () {
-                            alert("Something has failed");
-                        })
-                }
-              
-            });
 
-            $(".js-toggle-follow").click(function (e) {
-                var link = $(e.target)
-                console.log(link.attr("data-artist-id"));
+            GigsController.init("#gigs");
 
-                $.post("/api/followings", { FolloweeId: link.attr("data-artist-id") })
-                     .done(function () {
-                            link                                
-                                .text("Following");
-                        })
-                        .fail(function () {
-                            alert("something failed")
-                        })
-            })
         });;
     </script>
 }

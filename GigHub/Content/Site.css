@@ -128,6 +128,7 @@ span.field-validation-error {
 
 .gigs > li .details .genre {
     font-size: 13px;
+    margin-right: 10px;
 }
 
 .gigs > li .details .artist .follow-link {
@@ -150,8 +151,8 @@ span.field-validation-error {
 }
 
 .detail .follow-link {
-    background: #007ACC !important;
-    color: white;
+    font-size: 12px;
+    font-weight: normal;
 }
 
 .detail p {

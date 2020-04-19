@@ -8,15 +8,17 @@
         <span class="artist-name">@Model.Gig.Artist.Name</span>
         @if (User.Identity.IsAuthenticated)
         {
-            if (Model.IsFollowingGigArtist)
-            {
+            <button data-artist-id="@Model.Gig.ArtistId"
+                    class="
+                        follow-link
+                        js-toggle-follow
+                        btn
+                        btn-xsm
+                        @(Model.IsFollowingGigArtist ? "btn-info" : "btn-default")
+                        ">
+                @(Model.IsFollowingGigArtist ? "Following" : "Follow")
+            </button>
 
-                <span class="badge follow-link">Following</span>
-            }
-            else
-            {
-                <span class=""><a data-artist-id="@Model.Gig.ArtistId" class="js-toggle-follow" href="#">Follow</a></span>
-            }
         }
 
         <p>Performing at @Model.Gig.Venue on @Model.Gig.DateTime.ToShortDateString() @Model.Gig.DateTime.ToShortTimeString()</p>
@@ -42,21 +44,8 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            $(".js-toggle-follow").click(function (e) {
-                e.preventDefault();
-                var link = $(e.target)
-                console.log(link.attr("data-artist-id"));
-
-                $.post("/api/followings", { FolloweeId: link.attr("data-artist-id") })
-                    .done(function () {
-                        link
-                            .addClass('badge follow-link')
-                            .text("Following");
-                    })
-                    .fail(function () {
-                        alert("something failed")
-                    })
-            })
+            
+            FollowingController.init();
         });;
     </script>
 }

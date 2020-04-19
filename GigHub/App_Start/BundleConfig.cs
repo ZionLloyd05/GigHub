@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace GigHub
 {
@@ -8,6 +7,13 @@ namespace GigHub
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/bundles/app").Include(
+                 "~/Scripts/app/services/followService.js",
+                  "~/Scripts/app/controllers/followController.js",
+                  "~/Scripts/app/services/attendanceService.js",
+                  "~/Scripts/app/controllers/gigsController.js",
+                  "~/Scripts/app/app.js"
+                  ));
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
