@@ -80,7 +80,7 @@ namespace GigHub.Controllers
 
             return RedirectToAction("index", "Home");
         }
-
+        
         public ActionResult Detail(int? gigId)
         {
             if (gigId == null)
