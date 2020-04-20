@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 
 namespace GigHub.Respositories
 {
@@ -50,6 +49,9 @@ namespace GigHub.Respositories
                 .Where(g => g.DateTime > DateTime.Now).ToList();
         }
 
-
+        internal void Add(Gig gig)
+        {
+            _context.Gigs.Add(gig);
+        }
     }
 }

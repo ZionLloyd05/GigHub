@@ -1,5 +1,5 @@
 ﻿using GigHub.Models;
-using GigHub.Respositories;
+using GigHub.Persistence;
 using GigHub.ViewModels;
 using Microsoft.AspNet.Identity;
 using System.Linq;
@@ -11,16 +11,12 @@ namespace GigHub.Controllers
     public class GigsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly AttendanceRepository _attendanceRepository;
-        private readonly GigRepository _gigRepository;
-        private readonly GenreRepository _genreRepository;
+        private readonly UnitOfWork _unitOfWork;
 
         public GigsController()
         {
             _context = new ApplicationDbContext();
-            _attendanceRepository = new AttendanceRepository(_context);
-            _gigRepository = new GigRepository(_context);
-            _genreRepository = new GenreRepository(_context);
+            _unitOfWork = new UnitOfWork(_context);
         }
 
         [Authorize]
@@ -30,10 +26,10 @@ namespace GigHub.Controllers
                        
             var viewModel = new GigsViewModel
             {
-                UpcomingGigs = _gigRepository.GetGigsUserAttending(userId),
+                UpcomingGigs = _unitOfWork.Gigs.GetGigsUserAttending(userId),
                 ShowActions = User.Identity.IsAuthenticated,
                 Heading = "Upcoming Gigs",
-                Attendances = _attendanceRepository.GetFutureAttendances(userId).ToLookup(a => a.GigId)
+                Attendances = _unitOfWork.Attendances.GetFutureAttendances(userId).ToLookup(a => a.GigId)
             };
 
             return View("Gigs", viewModel);
@@ -44,7 +40,7 @@ namespace GigHub.Controllers
         {
             var vm = new GigFormViewModel
             {
-                Genres = _genreRepository.GetGenres()
+                Genres = _unitOfWork.Genres.GetGenres()
             };
 
             return View(vm);
@@ -70,8 +66,8 @@ namespace GigHub.Controllers
                 Venue = viewModel.Venue
             };
 
-            _context.Gigs.Add(gig);
-            _context.SaveChanges();
+            _unitOfWork.Gigs.Add(gig);
+            _unitOfWork.Complete();
 
             return RedirectToAction("index", "Home");
         }
@@ -82,7 +78,7 @@ namespace GigHub.Controllers
                 return RedirectToAction("index", "Home");
 
             var viewModel = new GigsDetailViewModel();
-            Gig gig = _gigRepository.GetUserGigithArtistAndGenre(gigId);
+            Gig gig = _unitOfWork.Gigs.GetUserGigithArtistAndGenre(gigId);
 
             viewModel.Gig = gig;
 
