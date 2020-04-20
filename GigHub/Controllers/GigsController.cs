@@ -1,9 +1,10 @@
-﻿using GigHub.Models;
+﻿using GigHub.Core.ViewModels;
 using GigHub.Persistence;
 using GigHub.ViewModels;
 using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Web.Mvc;
+using GigHub.Core.Models;
 
 namespace GigHub.Controllers
 {
@@ -30,7 +31,7 @@ namespace GigHub.Controllers
                 Attendances = _unitOfWork.Attendances.GetFutureAttendances(userId).ToLookup(a => a.GigId)
             };
 
-            return View("Gigs", viewModel);
+            return View($"Gigs", viewModel);
         }
 
         [Authorize]
@@ -53,7 +54,7 @@ namespace GigHub.Controllers
             if (!ModelState.IsValid)
             {
                 viewModel.Genres = _unitOfWork.Genres.GetGenres();
-                return View("Create", viewModel);
+                return View($"Create", viewModel);
             }
 
             var gig = new Gig
@@ -67,16 +68,16 @@ namespace GigHub.Controllers
             _unitOfWork.Gigs.Add(gig);
             _unitOfWork.Complete();
 
-            return RedirectToAction("index", "Home");
+            return RedirectToAction($"index", "Home");
         }
         
         public ActionResult Detail(int gigId)
         {
             if (gigId < 1)
-                return RedirectToAction("index", "Home");
+                return RedirectToAction($"index", $"Home");
 
             var viewModel = new GigsDetailViewModel();
-            Gig gig = _unitOfWork.Gigs.GetUserGigithArtistAndGenre(gigId);
+            Gig gig = _unitOfWork.Gigs.GetUserGigWithArtistAndGenre(gigId);
 
             viewModel.Gig = gig;
 

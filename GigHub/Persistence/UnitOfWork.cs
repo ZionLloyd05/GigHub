@@ -1,5 +1,5 @@
-﻿using GigHub.Models;
-using GigHub.Respositories;
+﻿using GigHub.Core.Repositories;
+using GigHub.Persistence.Respositories;
 
 namespace GigHub.Persistence
 {

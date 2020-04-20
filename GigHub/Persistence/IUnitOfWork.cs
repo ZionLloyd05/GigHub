@@ -1,4 +1,4 @@
-﻿using GigHub.Respositories;
+﻿using GigHub.Core.Repositories;
 
 namespace GigHub.Persistence
 {

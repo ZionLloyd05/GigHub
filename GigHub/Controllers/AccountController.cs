@@ -1,4 +1,4 @@
-﻿using GigHub.Models;
+﻿using GigHub.Core.ViewModels;
 using GigHub.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using GigHub.Core.Models;
 
 namespace GigHub.Controllers
 {
@@ -124,7 +125,7 @@ namespace GigHub.Controllers
                 case SignInStatus.Success:
                     return RedirectToLocal(model.ReturnUrl);
                 case SignInStatus.LockedOut:
-                    return View("Lockout");
+                    return View($"Lockout");
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid code.");
@@ -368,7 +369,7 @@ namespace GigHub.Controllers
                 var info = await AuthenticationManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
-                    return View("ExternalLoginFailure");
+                    return View($"ExternalLoginFailure");
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
@@ -395,7 +396,7 @@ namespace GigHub.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction($"Index", "Home");
         }
 
         //
