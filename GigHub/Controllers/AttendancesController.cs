@@ -9,13 +9,11 @@ namespace GigHub.Controllers
     [Authorize]
     public class AttendancesController : ApiController
     {
-        private readonly ApplicationDbContext _context;
         private readonly UnitOfWork _unitOfWork;
 
         public AttendancesController()
         {
-            _context = new ApplicationDbContext();
-            _unitOfWork = new UnitOfWork(_context);
+            _unitOfWork = new UnitOfWork(new ApplicationDbContext());
         }
 
         // POST api/<controller>
@@ -35,8 +33,8 @@ namespace GigHub.Controllers
                 AttendeeId = User.Identity.GetUserId()
             };
 
-            _context.Attendances.Add(attendance);
-            _context.SaveChanges();
+            _unitOfWork.Attendances.Add(attendance);
+            _unitOfWork.Complete();
 
             return Ok();
         }
@@ -56,8 +54,9 @@ namespace GigHub.Controllers
             if (attendanceInDb.AttendeeId != userId)
                 return BadRequest("Unauthorized");
 
-            _context.Attendances.Remove(attendanceInDb);
-            _context.SaveChanges();
+            _unitOfWork.Attendances.Remove(attendanceInDb);
+
+            _unitOfWork.Complete();
 
             return Ok();
         }

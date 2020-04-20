@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace GigHub.Respositories
 {
-    public class AttendanceRepository
+    public class AttendanceRepository : IAttendanceRepository
     {
         private readonly ApplicationDbContext _context;
 
@@ -29,7 +29,14 @@ namespace GigHub.Respositories
                 .SingleOrDefault();
         }
 
+        public void Add(Attendance attendance)
+        {
+            _context.Attendances.Add(attendance);
+        }
 
-
+        public void Remove(Attendance attendanceInDb)
+        {
+            _context.Attendances.Remove(attendanceInDb);
+        }
     }
 }

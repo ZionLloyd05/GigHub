@@ -10,13 +10,11 @@ namespace GigHub.Controllers
 
     public class GigsController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GigsController()
+        public GigsController(IUnitOfWork unitOfWork)
         {
-            _context = new ApplicationDbContext();
-            _unitOfWork = new UnitOfWork(_context);
+            _unitOfWork = unitOfWork;
         }
 
         [Authorize]
@@ -54,7 +52,7 @@ namespace GigHub.Controllers
         {
             if (!ModelState.IsValid)
             {
-                viewModel.Genres = _context.Genres.ToList();
+                viewModel.Genres = _unitOfWork.Genres.GetGenres();
                 return View("Create", viewModel);
             }
 
@@ -84,21 +82,21 @@ namespace GigHub.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
+                var isUserFollowingGigArtist = false;
+                var isUserAttending = false;
 
                 var userId = User.Identity.GetUserId();
 
-                var isUserFollowingGigArtist = _context.Followings
-                    .Any(
-                        f => f.FollowerId == userId
-                        && f.FolloweeId == gig.ArtistId
-                    );
+                var followingInDb = _unitOfWork.Follows.GetUserFollow(gig.ArtistId, userId);
 
-                var isUserAttending = _context.Attendances
-                    .Any(
-                        a => a.GigId == gig.Id
-                        && a.AttendeeId == userId
-                    );
+                var attendanceInDb = _unitOfWork.Attendances.GetAttendancesForGig(gig.Id, userId);
 
+                if (followingInDb != null)
+                    isUserFollowingGigArtist = true;
+
+                if (attendanceInDb != null)
+                    isUserAttending = true;
+                                
                 viewModel.IsAttendingGig = isUserAttending;
                 viewModel.IsFollowingGigArtist = isUserFollowingGigArtist;
 

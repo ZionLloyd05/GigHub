@@ -9,14 +9,11 @@ namespace GigHub.Controllers
     [Authorize]
     public class FollowingsController : ApiController
     {
-
-        private readonly ApplicationDbContext _context;
         private readonly UnitOfWork _unitOfWork;
 
         public FollowingsController()
-        {
-            _context = new ApplicationDbContext();
-            _unitOfWork = new UnitOfWork(_context);
+        {;
+            _unitOfWork = new UnitOfWork(new ApplicationDbContext());
         }
 
 
@@ -37,8 +34,8 @@ namespace GigHub.Controllers
                 FolloweeId = dto.FolloweeId
             };
 
-            _context.Followings.Add(following);
-            _context.SaveChanges();
+            _unitOfWork.Follows.Add(following);
+            _unitOfWork.Complete();
 
             return Ok();
         }
@@ -52,8 +49,8 @@ namespace GigHub.Controllers
                 return BadRequest();
             Following follow = _unitOfWork.Follows.GetUserFollow(id, userId);
 
-            _context.Followings.Remove(follow);
-            _context.SaveChanges();
+            _unitOfWork.Follows.Remove(follow);
+            _unitOfWork.Complete();
 
             return Ok();
         }

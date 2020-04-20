@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace GigHub.Respositories
 {
-    public class FollowingRepository
+    public class FollowingRepository : IFollowingRepository
     {
         private readonly ApplicationDbContext _context;
 
@@ -12,6 +12,10 @@ namespace GigHub.Respositories
             _context = context;
         }
 
+        public void Add(Following following)
+        {
+            _context.Followings.Add(following);
+        }
 
         public Following GetUserFollow(string id, string userId)
         {
@@ -19,5 +23,11 @@ namespace GigHub.Respositories
                     .Where(f => f.FolloweeId == id && f.FollowerId == userId)
                     .SingleOrDefault();
         }
+
+        public void Remove(Following following)
+        { 
+            _context.Followings.Remove(following);
+        }
+
     }
 }
