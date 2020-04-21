@@ -9,12 +9,13 @@ namespace GigHub.Controllers
     [Authorize]
     public class AttendancesController : ApiController
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public AttendancesController()
+        public AttendancesController(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = new UnitOfWork(new ApplicationDbContext());
+            _unitOfWork = unitOfWork;
         }
+
 
         // POST api/<controller>
         [HttpPost]

@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using GigHub.Core.Models;
+using GigHub.Persistence.EnitityConfigurations;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace GigHub.Persistence
@@ -23,10 +24,9 @@ namespace GigHub.Persistence
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Attendance>()
-                .HasRequired(a => a.Gig)
-                .WithMany()
-                .WillCascadeOnDelete(false);
+            modelBuilder.Configurations.Add(new GigConfiguration());
+
+            modelBuilder.Configurations.Add(new GenreConfiguration());
 
             modelBuilder.Entity<ApplicationUser>()
                 .HasMany(u => u.Followers)

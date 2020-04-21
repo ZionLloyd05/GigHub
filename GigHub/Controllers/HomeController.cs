@@ -8,13 +8,12 @@ namespace GigHub.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController()
+        public HomeController(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = new UnitOfWork(new ApplicationDbContext());
+            _unitOfWork = unitOfWork;
         }
-
 
         public ActionResult Index()
         {

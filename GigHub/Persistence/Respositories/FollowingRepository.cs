@@ -1,6 +1,8 @@
-﻿using System.Linq;
-using GigHub.Core.Models;
+﻿using GigHub.Core.Models;
 using GigHub.Core.Repositories;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Linq;
 
 namespace GigHub.Persistence.Respositories
 {
@@ -12,10 +14,17 @@ namespace GigHub.Persistence.Respositories
         {
             _context = context;
         }
-
+        
         public void Add(Following following)
         {
             _context.Followings.Add(following);
+        }
+
+        public bool IsArtistToFollowExist(string id)
+        {
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            var user = userManager.FindById(id);
+            return user != null;
         }
 
         public Following GetUserFollow(string id, string userId)

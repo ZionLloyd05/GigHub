@@ -213,6 +213,9 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Core\Dtos\FollowingDto.cs" />
+    <Compile Include="Persistence\EnitityConfigurations\AttendanceConfiguration.cs" />
+    <Compile Include="Persistence\EnitityConfigurations\GenreConfiguration.cs" />
+    <Compile Include="Persistence\EnitityConfigurations\GigConfiguration.cs" />
     <Compile Include="Persistence\IUnitOfWork.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Persistence\Respositories\AttendanceRepository.cs" />
@@ -348,7 +351,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Respositories\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />

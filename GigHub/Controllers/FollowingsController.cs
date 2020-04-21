@@ -1,19 +1,20 @@
-﻿using GigHub.Dtos;
+﻿
+using GigHub.Core.Dtos;
+using GigHub.Core.Models;
 using GigHub.Persistence;
 using Microsoft.AspNet.Identity;
 using System.Web.Http;
-using GigHub.Core.Models;
 
 namespace GigHub.Controllers
 {
     [Authorize]
     public class FollowingsController : ApiController
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public FollowingsController()
-        {;
-            _unitOfWork = new UnitOfWork(new ApplicationDbContext());
+        public FollowingsController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
         }
 
 
@@ -22,8 +23,11 @@ namespace GigHub.Controllers
         {
             var userId = User.Identity.GetUserId();
 
-            if(dto == null)
+            if(dto == null || string.IsNullOrEmpty(dto.FolloweeId))
                 return BadRequest();
+
+            if (!_unitOfWork.Follows.IsArtistToFollowExist(dto.FolloweeId))
+                return NotFound();
 
             if (_unitOfWork.Follows.GetUserFollow(dto.FolloweeId, userId) != null)
                 return BadRequest("Following already exists");
